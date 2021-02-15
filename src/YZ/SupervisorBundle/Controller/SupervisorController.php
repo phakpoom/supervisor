@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use YZ\SupervisorBundle\Manager\SupervisorManager;
 
 class SupervisorController extends AbstractController
@@ -16,10 +17,14 @@ class SupervisorController extends AbstractController
     /** @var SessionInterface */
     private $session;
 
-    public function __construct(SupervisorManager $manager, SessionInterface $session)
+    /** @var TranslatorInterface */
+    private $translator;
+
+    public function __construct(SupervisorManager $manager, SessionInterface $session, ?TranslatorInterface $translator)
     {
         $this->manager = $manager;
         $this->session = $session;
+        $this->translator = $translator;
     }
 
     private static $publicInformations = ['description', 'group', 'name', 'state', 'statename'];
@@ -29,6 +34,27 @@ class SupervisorController extends AbstractController
         return $this->render('@YZSupervisor/Supervisor/list.html.twig', [
             'supervisors' => $this->manager->getSupervisors()
         ]);
+    }
+
+    public function clearProcessLogAllAction(string $key):  Response
+    {
+        $supervisorManager = $this->get('supervisor.manager');
+        $supervisor = $supervisorManager->getSupervisorByKey($key);
+
+        if (!$supervisor) {
+            throw new \Exception('Supervisor not found');
+        }
+
+        foreach ($supervisor->getProcesses() as $process) {
+            if ($process->clearProcessLogs() !== true) {
+                $this->session->getFlashBag()->add(
+                    'error',
+                    $this->translator->trans('logs.delete.error', array(), 'YZSupervisorBundle')
+                );
+            }
+        }
+
+        return $this->redirect($this->generateUrl('supervisor'));
     }
 
     public function startStopProcessAction(string $start, string $key, string $name, string $group, Request $request): Response
@@ -53,14 +79,14 @@ class SupervisorController extends AbstractController
             $success = false;
             $this->session->getFlashBag()->add(
                 'error',
-                $this->get('translator')->trans('process.stop.error', [], 'YZSupervisorBundle')
+                $this->translator->trans('process.stop.error', [], 'YZSupervisorBundle')
             );
         }
 
         if (!$success) {
             $this->session->getFlashBag()->add(
                 'error',
-                $this->get('translator')->trans(
+                $this->translator->trans(
                     ($start == "1" ? 'process.start.error' : 'process.stop.error'),
                     [],
                     'YZSupervisorBundle'
@@ -142,7 +168,7 @@ class SupervisorController extends AbstractController
         if ($supervisor->clearLog() !== true) {
             $this->session->getFlashBag()->add(
                 'error',
-                $this->get('translator')->trans('logs.delete.error', [], 'YZSupervisorBundle')
+                $this->translator->trans('logs.delete.error', [], 'YZSupervisorBundle')
             );
         }
 
@@ -198,7 +224,7 @@ class SupervisorController extends AbstractController
         if ($process->clearProcessLogs() !== true) {
             $this->session->getFlashBag()->add(
                 'error',
-                $this->get('translator')->trans('logs.delete.error', [], 'YZSupervisorBundle')
+                $this->translator->trans('logs.delete.error', [], 'YZSupervisorBundle')
             );
         }
 

@@ -14,12 +14,15 @@
     ],
     "require": {
         "php": ">=7.2",
-        "laminas/laminas-xmlrpc": "^2.10",
-        "symfony/framework-bundle": "^4.2 || ^5.0"
+        "symfony/framework-bundle": "^4.2 || ^5.0",
+        "laminas/laminas-xmlrpc": "^2.9 || ^2.10"
     },
     "autoload": {
         "psr-0": {
             "": "src/"
         }
+    },
+    "require-dev": {
+        "symfony/translation-contracts": "^2.3"
     }
 }

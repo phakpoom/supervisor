@@ -9,6 +9,7 @@
         <service id="YZ\SupervisorBundle\Controller\SupervisorController" class="YZ\SupervisorBundle\Controller\SupervisorController">
             <argument type="service" id="supervisor.manager" />
             <argument type="service" id="session" />
+            <argument type="service" id="Symfony\Contracts\Translation\TranslatorInterface" />
             <tag name="controller.service_arguments" />
         </service>
     </services>
