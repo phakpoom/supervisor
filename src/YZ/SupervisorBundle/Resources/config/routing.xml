@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="supervisor" path="/">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::indexAction</default>
+    </route>
+
+    <route id="supervisor.process.startStop" path="/{key}/start-stop-process/{name}/{group}/{start}/">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::startStopProcessAction</default>
+        <requirement key="start">0|1</requirement>
+    </route>
+
+    <route id="supervisor.processes.info" path="/{key}/show-processes-info/">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::showProcessInfoAllAction</default>
+    </route>
+
+    <route id="supervisor.processes.startStop" path="/{key}/start-stop-all-processes/{start}/">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::startStopAllProcessesAction</default>
+        <requirement key="start">0|1</requirement>
+    </route>
+
+    <route id="supervisor.log" path="/{key}/show-log">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::showSupervisorLogAction</default>
+    </route>
+
+    <route id="supervisor.log.clear" path="/{key}/clear-log">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::clearSupervisorLogAction</default>
+    </route>
+
+    <route id="supervisor.process.log" path="/{key}/show-process-log/{name}/{group}/">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::showProcessLogAction</default>
+    </route>
+
+    <route id="supervisor.process.error" path="/{key}/show-process-err-log/{name}/{group}/">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::showProcessLogErrAction</default>
+    </route>
+
+    <route id="supervisor.process.log.clear" path="/{key}/clear-process-log/{name}/{group}/">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::clearProcessLogAction</default>
+    </route>
+
+    <route id="supervisor.process.info" path="/{key}/show-process-info/{name}/{group}/">
+        <default key="_controller">YZ\SupervisorBundle\Controller\SupervisorController::showProcessInfoAction</default>
+    </route>
+</routes>

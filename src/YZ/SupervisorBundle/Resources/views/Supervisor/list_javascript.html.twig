@@ -1,0 +1,108 @@
+{% trans_default_domain 'YZSupervisorBundle' %}
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+        // update processes states on tab change
+        $('#supervisor-instances').find('> li > a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            updateAll();
+        });
+
+        // use ajax to start/stop process. wait 1,2 sec then refresh row
+        $('.process-control > a').click(function (e){
+            e.preventDefault();
+            var $this = $(this);
+            var process = $(this).parents('.process');
+
+            if (process.data('control') === false || $this.hasClass('disabled')) {
+                console.log('Action canceled');
+                return;
+            }
+            var started = process.data('started');
+
+            process.data('control', false).removeClass('success danger').addClass('warning');
+            $('.process-statename', process).text(started ? '{{ "stopping"|trans }}' : '{{ "starting"|trans }}').removeClass('label-success label-danger').addClass('label-warning');
+            $this.addClass('disabled');
+
+            $.get($this.attr('href'), function (r) {
+                if (!r.success) {
+                    $this.tooltip({
+                        title: r.message,
+                        trigger: 'manual',
+                        container: 'body',
+                        placement: 'left'
+                    }).tooltip('show');
+                    setTimeout(function () {
+                        $this.tooltip('hide');
+                    }, 2000);
+                }
+                setTimeout(function() {
+                    update(process);
+                }, 1200);
+            });
+        });
+
+        // refresh all rows
+        $('#refresh-all-process').click(function (e) {
+            e.preventDefault();
+            updateAll();
+        });
+
+        // start/stop all
+        $('.processes-control > a').click(function (e) {
+            e.preventDefault();
+            var processes = $('.process');
+            var $this = $(this);
+
+            var stopping = $this.hasClass('stop');
+
+            processes.data('control', false).removeClass('success danger').addClass('warning');
+            $('.process-statename', processes).text(stopping ? '{{ "stopping"|trans }}' : '{{ "starting"|trans }}').removeClass('label-success label-danger').addClass('label-warning');
+            $this.addClass('disabled');
+
+            $.get($this.attr('href'), function (r) {
+                $this.removeClass('disabled');
+                setTimeout(function() {
+                    updateAll();
+                }, 1200);
+            });
+        });
+
+        // fetch update for all processes
+        function updateAll() {
+            var refreshBtn = $('#refresh-all-process');
+            refreshBtn.attr('disabled', true).text(refreshBtn.data('loading-text'));
+            var url = $('.supervisor.active').data('refresh-url');
+
+            $.get(url, function (r) {
+                for(var name in r) {
+                    var el = $('.supervisor[data-supervisor="'+r[name].supervisor+'"] .process[data-name="'+name+'"]');
+                    if (el.length == 1) {
+                        display(el, r[name]);
+                    } else {
+                        console.log("Cannot update '" + name + "': row not found");
+                    }
+                }
+
+                refreshBtn.attr('disabled', false).text(refreshBtn.data('text'));
+            });
+        }
+
+        // update one specific process
+        function update(process) {
+            $.get($('.process-info', process).attr('href'), function (r) {
+                display(process, r);
+            });
+        }
+
+        // update display and data
+        function display(process, response) {
+            var started = response.processInfo.state == 10 || response.processInfo.state == 20;
+            $('.process-statename', process).text(response.processInfo.statename).removeClass('label-success label-danger label-warning').addClass(started ? 'label-success' : 'label-danger');
+            $('.process-control a', process).text(started ? '{{ "stop"|trans }}' : '{{ "start"|trans }}').removeClass('btn-success btn-danger disabled').addClass(started ? 'btn-danger' : 'btn-success').attr('href', response.controlLink);
+            $('.process-description', process).text(response.processInfo.description);
+            process.data('control', true).data('started', started).removeClass('success danger warning').addClass(started ? 'success' : 'danger');
+        }
+    });
+</script>

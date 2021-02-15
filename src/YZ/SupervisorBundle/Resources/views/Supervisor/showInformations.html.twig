@@ -1,0 +1,11 @@
+{% trans_default_domain 'YZSupervisorBundle' %}
+
+{% if informations %}
+    <div>
+    {% for key, information in informations %}
+        <div> {{ key }} : {{ information }} </div>
+    {% endfor %}
+    </div>
+{% else %}
+    {{ "information.empty"|trans }}
+{% endif %}

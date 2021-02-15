@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="supervisor.manager" class="YZ\SupervisorBundle\Manager\SupervisorManager">
+            <argument>%supervisor.servers%</argument>
+        </service>
+        <service id="YZ\SupervisorBundle\Controller\SupervisorController" class="YZ\SupervisorBundle\Controller\SupervisorController">
+            <argument type="service" id="supervisor.manager" />
+            <argument type="service" id="session" />
+            <tag name="controller.service_arguments" />
+        </service>
+    </services>
+</container>
