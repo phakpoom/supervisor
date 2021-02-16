@@ -151,7 +151,7 @@ class SupervisorController extends AbstractController
 
         $logs = $supervisor->readLog(0, 0);
 
-        return $this->render('YZSupervisorBundle:Supervisor:showLog.html.twig', [
+        return $this->render('@YZSupervisor/Supervisor/showLog.html.twig', [
             'log' => $logs
         ]);
     }
@@ -188,7 +188,7 @@ class SupervisorController extends AbstractController
         $result = $process->tailProcessStdoutLog(0, 1);
         $stdout = $process->tailProcessStdoutLog(0, $result[1]);
 
-        return $this->render('YZSupervisorBundle:Supervisor:showLog.html.twig', [
+        return $this->render('@YZSupervisor/Supervisor/showLog.html.twig', [
             'log' => $stdout[0]
         ]);
     }
@@ -206,7 +206,7 @@ class SupervisorController extends AbstractController
         $result = $process->tailProcessStderrLog(0, 1);
         $stderr = $process->tailProcessStderrLog(0, $result[1]);
 
-        return $this->render('YZSupervisorBundle:Supervisor:showLog.html.twig', [
+        return $this->render('Y@ZSupervisor/Supervisor/showLog.html.twig', [
             'log' => $stderr[0]
         ]);
     }
@@ -266,7 +266,7 @@ class SupervisorController extends AbstractController
             ]);
         }
 
-        return $this->render('YZSupervisorBundle:Supervisor:showInformations.html.twig', [
+        return $this->render('@YZSupervisor/Supervisor/showInformations.html.twig', [
             'informations' => $infos,
         ]);
     }

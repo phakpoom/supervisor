@@ -1,0 +1,26 @@
+open.stdout: View stdout
+open.stderr: View stderr
+refresh: Refresh
+updating: Updating now
+logs.view: View logs
+logs.delete: Delete logs
+log.empty: This log file is empty
+loading: Loading...
+stop.all: Stop all
+start.all: Start all
+start: Start
+stop: Stop
+version.api: Api version
+version.supervisor: Supervisor version
+information: Show info
+information.empty: No information is available
+server.up: UP
+server.down: DOWN
+header.status: Status
+header.process: Process
+header.actions: Actions
+starting: STARTING...
+stopping: STOPPING...
+process.stop.error: The process could not be stopped.
+process.start.error: The process could not be started.
+logs.delete.error: The logs could not be deleted.
