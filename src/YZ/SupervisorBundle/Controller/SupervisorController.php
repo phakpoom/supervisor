@@ -206,7 +206,7 @@ class SupervisorController extends AbstractController
         $result = $process->tailProcessStderrLog(0, 1);
         $stderr = $process->tailProcessStderrLog(0, $result[1]);
 
-        return $this->render('Y@ZSupervisor/Supervisor/showLog.html.twig', [
+        return $this->render('@YZSupervisor/Supervisor/showLog.html.twig', [
             'log' => $stderr[0]
         ]);
     }
