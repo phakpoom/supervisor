@@ -15,7 +15,7 @@
     "require": {
         "php": ">=7.2",
         "symfony/framework-bundle": "^4.2 || ^5.0",
-        "laminas/laminas-xmlrpc": "^2.9"
+        "laminas/laminas-xmlrpc": "^2.7"
     },
     "autoload": {
         "psr-0": {
