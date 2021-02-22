@@ -13,7 +13,9 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('yz_supervisor');
-        $rootNode = $treeBuilder->getRootNode();
+        $rootNode = method_exists(TreeBuilder::class, 'getRootNode')
+            ? $treeBuilder->getRootNode()
+            : $treeBuilder->root('yz_supervisor');
 
         $rootNode
             ->children()
