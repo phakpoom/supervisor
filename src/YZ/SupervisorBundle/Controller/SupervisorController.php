@@ -49,7 +49,7 @@ class SupervisorController extends AbstractController
             if ($process->clearProcessLogs() !== true) {
                 $this->session->getFlashBag()->add(
                     'error',
-                    $this->translator->trans('logs.delete.error', array(), 'YZSupervisorBundle')
+                    $this->translator->trans('logs.delete.error', [], 'YZSupervisorBundle')
                 );
             }
         }
@@ -74,7 +74,6 @@ class SupervisorController extends AbstractController
             } else {
                 $success = false;
             }
-
         } catch (\Exception $e) {
             $success = false;
             $this->session->getFlashBag()->add(
