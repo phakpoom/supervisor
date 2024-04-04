@@ -15,7 +15,7 @@
     "require": {
         "ext-json": "*",
         "php": ">=7.2 || >=8.0",
-        "symfony/framework-bundle": "^3.4 || ^4.2 || ^5.0",
+        "symfony/framework-bundle": "^3.4 || ^4.2 || ^5.0 || ^6.0 || ^7.0",
         "laminas/laminas-xmlrpc": "^2.6"
     },
     "autoload": {
