@@ -8,7 +8,7 @@
         </service>
         <service id="YZ\SupervisorBundle\Controller\SupervisorController" class="YZ\SupervisorBundle\Controller\SupervisorController">
             <argument type="service" id="supervisor.manager" />
-            <argument type="service" id="session" />
+            <argument type="service" id="request_stack" />
             <argument type="service" id="Symfony\Contracts\Translation\TranslatorInterface" />
             <call method="setContainer">
                 <argument type="service" id="service_container" />
